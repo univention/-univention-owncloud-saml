@@ -1,0 +1,5 @@
+[owncloud/saml/path]
+Description[de]=Pfad für owncloud Single Sign On.
+Description[en]=PAth for owncloud single sign on.
+Type=str
+Categories=management-umc

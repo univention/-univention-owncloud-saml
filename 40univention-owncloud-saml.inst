@@ -1,0 +1,79 @@
+#! /bin/sh
+#
+# Copyright 2017 Univention GmbH
+#
+# http://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <http://www.gnu.org/licenses/>.
+
+set -e
+
+VERSION=1
+. /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/umc.sh
+
+joinscript_init
+eval "$(univention-config-registry shell)"
+
+udm saml/serviceprovider create "$@" --ignore_exists --position "cn=saml-serviceprovider,cn=univention,$ldap_base" \
+	--set Identifier="https://$hostname.${domainname}${owncloud_saml_path}" \
+	--set AssertionConsumerService="https://$hostname.$domainname/Shibboleth.sso/SAML2/POST" \
+	--append LDAPattributes=uid \
+	--set NameIDFormat=urn:oasis:names:tc:SAML:2.0:nameid-format:persistent \
+	--set attributesNameFormat=urn:mace:dir:attribute-def:eduPersonPrincipalName \
+	--set isActivated=TRUE \
+	--set serviceproviderdescription="ownCloud single sign on" \
+	--set simplesamlAttributes=TRUE \
+	--set simplesamlNameIDAttribute=uid \
+	--set singleLogoutService=FIXME
+
+udm settings/portal_entry create "$@" --ignore_exists --position "cn=portal,cn=univention,$ldap_base" \
+	--set name=univention-owncloud-saml \
+	--set activated=TRUE \
+	--set authRestriction=anonymous \
+	--set category=service \
+	--append description='"en_EN" "SSO ownCloud"' \
+	--append description='"de_DE" "SSO ownCloud"' \
+	--append displayName='"en_EN" "SSO ownCloud"' \
+	--append displayName='"de_DE" "SSO ownCloud"' \
+	--set icon="$(base64 /usr/share/univention-portal/icons/entries/owncloud.svg)" \
+	--set link="$owncloud_saml_path" \
+	--set portal="cn=domain,cn=portal,cn=univention,$ldap_base"
+
+docker cp /usr/share/univention-owncloud-saml/shibd.conf "$(ucr get appcenter/apps/owncloud/container)":/etc/apache2/conf-available/
+docker cp /usr/share/univention-owncloud-saml/enable_saml.sh "$(ucr get appcenter/apps/owncloud/container)":/root/
+docker cp /usr/share/univention-owncloud-saml/subpath.conf "$(ucr get appcenter/apps/owncloud/container)":/root/owncloud/
+docker cp /usr/share/univention-owncloud-saml/shibboleth2.xml "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/shibboleth2.xml
+docker cp /usr/share/univention-management-console/saml/idp/*.xml "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/idp.xml
+ssl_path=$(ucr get appcenter/apps/owncloud/hostdn | python -c 'import ldap, sys; print ldap.dn.str2dn(sys.stdin.read())[0][0][1]')
+docker cp "/etc/univention/ssl/$ssl_path/cert.pem" "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/sp-cert.pem
+docker cp "/etc/univention/ssl/$ssl_path/private.key" "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/sp-key.pem  # FIXME: chmod!
+
+univention-app shell owncloud /root/enable_saml.sh
+
+docker restart "$(ucr get appcenter/apps/owncloud/container)"
+univention-app shell owncloud service shibd start
+
+joinscript_save_current_version
+exit 0

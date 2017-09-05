@@ -1,0 +1,26 @@
+Type: subfile
+Multifile: etc/apache2/sites-available/default-ssl.conf
+Subfile: etc/apache2/sites-available/ssl.d/11univention-owncloud-saml
+Variables: appcenter/apps/.*/ports/.*
+Variables: owncloud/saml/path
+
+Type: subfile
+Multifile: etc/apache2/sites-available/000-default.conf
+Subfile: etc/apache2/sites-available/000-default.d/11univention-owncloud-saml
+Variables: appcenter/apps/.*/ports/.*
+Variables: owncloud/saml/path
+
+Type: file
+File: usr/share/univention-owncloud-saml/shibd.conf
+Variables: owncloud/saml/path
+
+Type: file
+File: usr/share/univention-owncloud-saml/subpath.conf
+Variables: owncloud/saml/path
+
+Type: file
+File: usr/share/univention-owncloud-saml/shibboleth2.xml
+Variables: owncloud/saml/path
+Variables: hostname
+Variables: domainname
+Variables: umc/saml/idp-server

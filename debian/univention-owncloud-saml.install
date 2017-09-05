@@ -1,0 +1,2 @@
+enable_saml.sh /usr/share/univention-owncloud-saml/
+40univention-owncloud-saml.inst usr/lib/univention-install/

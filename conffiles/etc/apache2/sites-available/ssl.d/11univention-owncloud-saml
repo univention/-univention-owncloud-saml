@@ -1,0 +1,16 @@
+@!@
+from univention.appcenter.app_cache import Apps
+from univention.appcenter.utils import app_ports
+
+for app_id, container_port, host_port in app_ports():
+	if app_id == 'owncloud':
+		app = Apps().find(app_id)
+		scheme = app.web_interface_proxy_scheme
+		if scheme == 'both':
+			scheme = 'https'
+		if app.web_interface_port_https == container_port:
+			print '''
+	ProxyPass %(web_interface)s %(scheme)s://127.0.0.1:%(web_port)s%(web_interface)s retry=0
+	ProxyPass /Shibboleth.sso/ %(scheme)s://127.0.0.1:%(web_port)s/Shibboleth.sso/ retry=0
+''' % {'id': app.id, 'web_interface': configRegistry.get('owncloud/saml/path', '/oc-shib'), 'web_port': host_port, 'scheme': scheme}
+@!@

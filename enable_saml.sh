@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/bin/bash
 #
 # Copyright 2017 Univention GmbH
 #
@@ -27,13 +27,18 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <http://www.gnu.org/licenses/>.
 
-%:
-	dh $@
-
-override_dh_auto_install:
-	univention-install-config-registry
-	dh_auto_install
-
-override_dh_auto_test:
-	ucslint
-	dh_auto_test
+set -ex
+apt-get update -qq
+apt-get install --assume-yes libshibsp6 libapache2-mod-shib2 libshibsp-doc sudo
+cd /var/www/owncloud
+sudo -u www-data php occ market:upgrade
+sudo -u www-data php occ market:install enterprise_key
+sudo -u www-data php occ market:install user_shibboleth
+sudo -u www-data php occ app:enable user_shibboleth
+sudo -u www-data php occ shibboleth:mode ssoonly
+sudo -u www-data php occ shibboleth:mapping -u uid
+sed -i 's/$NameQualifier!$SPNameQualifier!$Name/$Name/g' /etc/shibboleth/attribute-map.xml
+a2enconf shibd.conf
+service shibd stop || true
+service shibd start
+service apache2 reload
