@@ -46,7 +46,7 @@ udm saml/serviceprovider create "$@" --ignore_exists --position "cn=saml-service
 	--set serviceproviderdescription="ownCloud single sign on" \
 	--set simplesamlAttributes=TRUE \
 	--set simplesamlNameIDAttribute=uid \
-	--set singleLogoutService="https://$hostname.$domainname/Shibboleth.sso/SAML2/POST"  # FIXME: is this URL correct?
+	--set singleLogoutService="https://$hostname.$domainname/Shibboleth.sso/SLO/POST"
 
 udm settings/portal_entry create "$@" --ignore_exists --position "cn=portal,cn=univention,$ldap_base" \
 	--set name=univention-owncloud-saml \
@@ -58,7 +58,7 @@ udm settings/portal_entry create "$@" --ignore_exists --position "cn=portal,cn=u
 	--append displayName='"en_EN" "SSO ownCloud"' \
 	--append displayName='"de_DE" "SSO ownCloud"' \
 	--set icon="$(base64 /usr/share/univention-portal/icons/entries/owncloud.svg)" \
-	--set link="$owncloud_saml_path" \
+	--set link="https://${hostname}.${domainname}$owncloud_saml_path" \
 	--set portal="cn=domain,cn=portal,cn=univention,$ldap_base"
 
 univention-app shell owncloud 'apt-get update -qq'

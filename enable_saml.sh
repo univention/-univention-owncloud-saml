@@ -35,7 +35,7 @@ sudo -u www-data php occ market:install enterprise_key
 sudo -u www-data php occ market:install user_shibboleth
 sudo -u www-data php occ app:enable user_shibboleth
 sudo -u www-data php occ shibboleth:mode ssoonly
-sudo -u www-data php occ shibboleth:mapping -u uid
+sudo -u www-data php occ shibboleth:mapping -u REMOTE_USER
 sed -i 's/$NameQualifier!$SPNameQualifier!$Name/$Name/g' /etc/shibboleth/attribute-map.xml
 a2enconf shibd.conf
 service shibd stop || true

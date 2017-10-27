@@ -30,3 +30,5 @@ Um das ganze in Betrieb zu nehmen sind folgende Scrhitte notwendig:
 ## Hinweise
 Die Änderungen an /root/owncloud/subpath.conf werden ein Container-Update nicht überleben.
 Zum Debuggen eignet sich https://$fqdn//Shibboleth.sso/Session, um zu prüfen was in der Session drin steht.
+Die SAML Metadaten des Service Provider befinden sich unter https://$fqdn//Shibboleth.sso/Metadata.
+https://$fqdn//Shibboleth.sso/Status von localhost!
