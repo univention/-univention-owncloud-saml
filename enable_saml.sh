@@ -28,8 +28,7 @@
 # <http://www.gnu.org/licenses/>.
 
 set -ex
-apt-get update -qq
-apt-get install --assume-yes libshibsp6 libapache2-mod-shib2 libshibsp-doc sudo
+
 cd /var/www/owncloud
 sudo -u www-data php occ market:upgrade
 sudo -u www-data php occ market:install enterprise_key
