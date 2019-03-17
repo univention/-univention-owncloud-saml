@@ -62,7 +62,7 @@ udm settings/portal_entry create "$@" --ignore_exists --position "cn=portal,cn=u
 	--set portal="cn=domain,cn=portal,cn=univention,$ldap_base"
 
 univention-app shell owncloud apt-get update -qq
-univention-app shell owncloud apt-get install --assume-yes libshibsp6 libapache2-mod-shib2 libshibsp-doc sudo
+univention-app shell owncloud apt-get install --assume-yes libshibsp7 libapache2-mod-shib2 libshibsp-doc sudo
 docker cp /usr/share/univention-owncloud-saml/shibd.conf "$(ucr get appcenter/apps/owncloud/container)":/etc/apache2/conf-available/
 docker cp /usr/share/univention-owncloud-saml/enable_saml.sh "$(ucr get appcenter/apps/owncloud/container)":/root/
 docker cp /usr/share/univention-owncloud-saml/subpath.conf "$(ucr get appcenter/apps/owncloud/container)":/root/owncloud/
