@@ -29,6 +29,8 @@
 
 set -ex
 
+. /usr/bin/entrypoint
+
 cd /var/www/owncloud
 sudo -u www-data php occ market:upgrade
 sudo -u www-data php occ market:install enterprise_key
@@ -40,4 +42,7 @@ sed -i 's/$NameQualifier!$SPNameQualifier!$Name/$Name/g' /etc/shibboleth/attribu
 a2enconf shibd.conf
 service shibd stop || true
 service shibd start
-service apache2 reload
+
+# apache runs in foreground, so use kill instead of service-reload
+# service apache2 reload
+pkill -U 0 -f /usr/sbin/apache2 --signal SIGUSR1
