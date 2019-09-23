@@ -22,7 +22,8 @@ Dieses Paket führt dann u.a. die folgenden Schritte aus:
 ## In Betrieb nehmen
 Um das ganze in Betrieb zu nehmen sind folgende Scrhitte notwendig:
 * Ggf. Setzen der UCR-Variable `owncloud/saml/path` (Standard: /oc-shib)
-* Installieren des Debian Pakets
+* Herunterladen oder Bauen des Debian-Pakets z.B. von der [github release page](https://github.com/univention/univention-owncloud-saml/releases)
+* Installieren des Debian-Pakets
 * Sicherstellen, dass das Joinscript erfolgreich ausgeführt wurde
 * Erstellen eines ownCloud-Benutzer in UMC
 * Aktivieren des ownCloud-Benutzer für den SAML Service Provider unterhalb von [Konto] → [SAML Einstellungen]
