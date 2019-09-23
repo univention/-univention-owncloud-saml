@@ -1,3 +1,9 @@
+univention-owncloud-saml (1.0.0-2) unstable; urgency=medium
+
+  * Add support for onlyoffice and collabory
+
+ -- Florian Best <best@univention.de>  Mon, 23 Sep 2019 16:27:36 +0200
+
 univention-owncloud-saml (1.0.0-1) unstable; urgency=medium
 
   * Initial Release
