@@ -8,8 +8,10 @@ for app_id, container_port, host_port in app_ports():
 		scheme = app.web_interface_proxy_scheme
 		if scheme == 'both':
 			scheme = 'http'
+		scheme = 'https'  # somehow the information from the app.ini are wrong
 		if app.web_interface_port_https == container_port:
 			print '''
+	SSLProxyEngine on
 	ProxyPass %(web_interface)s %(scheme)s://127.0.0.1:%(web_port)s%(web_interface)s retry=0
 	ProxyPass /Shibboleth.sso/ %(scheme)s://127.0.0.1:%(web_port)s/Shibboleth.sso/ retry=0
 ''' % {'id': app.id, 'web_interface': configRegistry.get('owncloud/saml/path', '/oc-shib'), 'web_port': host_port, 'scheme': scheme}
