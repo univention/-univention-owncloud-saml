@@ -1,3 +1,9 @@
+univention-owncloud-saml (1.0.0-4) unstable; urgency=medium
+
+  * Issue #5: Depend on libshib8
+
+ -- Florian Best <best@univention.de>  Tue, 24 Mar 2020 19:36:49 +0100
+
 univention-owncloud-saml (1.0.0-3) unstable; urgency=medium
 
   * Fix http access to /oc-shib/ due to broken proxy configuration
