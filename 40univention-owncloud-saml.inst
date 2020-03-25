@@ -72,7 +72,7 @@ docker cp /usr/share/univention-owncloud-saml/shibboleth2.xml "$(ucr get appcent
 docker cp /usr/share/univention-management-console/saml/idp/*.xml "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/idp.xml
 ssl_path=$(ucr get appcenter/apps/owncloud/hostdn | python -c 'import ldap, sys; print ldap.dn.str2dn(sys.stdin.read())[0][0][1]')
 docker cp "/etc/univention/ssl/$ssl_path/cert.pem" "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/sp-cert.pem
-docker cp "/etc/univention/ssl/$ssl_path/private.key" "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/sp-key.pem  # FIXME: chmod!
+docker cp "/etc/univention/ssl/$ssl_path/private.key" "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/sp-key.pem
 
 univention-app shell owncloud /root/enable_saml.sh
 
