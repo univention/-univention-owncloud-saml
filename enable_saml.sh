@@ -31,6 +31,9 @@ set -ex
 
 . /usr/bin/entrypoint
 
+chmod 600 /etc/shibboleth/sp-key.pem
+chown _shibd. /etc/shibboleth/sp-*.pem
+
 cd /var/www/owncloud
 sudo -u www-data php occ market:upgrade
 sudo -u www-data php occ market:install enterprise_key
