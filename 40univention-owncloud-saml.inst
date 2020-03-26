@@ -67,7 +67,7 @@ univention-app shell owncloud apt-get update -qq
 univention-app shell owncloud apt-get install --assume-yes libshibsp8 libapache2-mod-shib2 libshibsp-doc sudo
 docker cp /usr/share/univention-owncloud-saml/shibd.conf "$(ucr get appcenter/apps/owncloud/container)":/etc/apache2/conf-available/
 docker cp /usr/share/univention-owncloud-saml/enable_saml.sh "$(ucr get appcenter/apps/owncloud/container)":/root/
-docker cp /usr/share/univention-owncloud-saml/subpath.conf "$(ucr get appcenter/apps/owncloud/container)":/root/owncloud/
+docker cp /usr/share/univention-owncloud-saml/subpath.conf "$(ucr get appcenter/apps/owncloud/container)":/root/
 docker cp /usr/share/univention-owncloud-saml/shibboleth2.xml "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/shibboleth2.xml
 docker cp /usr/share/univention-management-console/saml/idp/*.xml "$(ucr get appcenter/apps/owncloud/container)":/etc/shibboleth/idp.xml
 ssl_path=$(ucr get appcenter/apps/owncloud/hostdn | python -c 'import ldap, sys; print ldap.dn.str2dn(sys.stdin.read())[0][0][1]')
