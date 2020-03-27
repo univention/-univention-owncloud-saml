@@ -1,3 +1,9 @@
+univention-owncloud-saml (1.0.0-5) unstable; urgency=medium
+
+  * Issue #7: fix broken path /root/owncloud/
+
+ -- Florian Best <best@univention.de>  Fri, 27 Mar 2020 06:41:52 +0100
+
 univention-owncloud-saml (1.0.0-4) unstable; urgency=medium
 
   * Issue #5: Depend on libshib8
