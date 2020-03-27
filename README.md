@@ -30,7 +30,7 @@ The following steps are necessary to start the whole process:
 * Activate the ownCloud user for the SAML Service Provider under [Account] → [SAML Settings].
 
 ## Clues
-* The changes to /root/owncloud/subpath.conf will not survive a container update.
+* The changes to /root/subpath.conf will not survive a container update.
 * For debugging, https://$fqdn//Shibboleth.sso/Session can be used to check what is stored in the session.
 * The SAML metadata of the service provider can be found at https://$fqdn//Shibboleth.sso/Metadata.
 * https://$fqdn//Shibboleth.sso/Status of localhost!

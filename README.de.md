@@ -29,7 +29,7 @@ Um das ganze in Betrieb zu nehmen sind folgende Scrhitte notwendig:
 * Aktivieren des ownCloud-Benutzer für den SAML Service Provider unterhalb von [Konto] → [SAML Einstellungen]
 
 ## Hinweise
-* Die Änderungen an /root/owncloud/subpath.conf werden ein Container-Update nicht überleben.
+* Die Änderungen an /root/subpath.conf werden ein Container-Update nicht überleben.
 * Zum Debuggen eignet sich https://$fqdn//Shibboleth.sso/Session, um zu prüfen was in der Session gespeichert ist.
 * Die SAML Metadaten des Service Provider befinden sich unter https://$fqdn//Shibboleth.sso/Metadata.
 * https://$fqdn//Shibboleth.sso/Status von localhost!
